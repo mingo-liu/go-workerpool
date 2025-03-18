@@ -2,19 +2,21 @@ package main
 
 import (
 	"fmt"
-	"go-workerpool/workerpool"
 	"runtime"
 	"time"
+
+	"github.com/mingo-liu/go-workerpool/workerpool"
 )
 
 // Task 定义具体的任务结构体
 type Task struct {
 	Number int
+	Data   any // 函数参数
 }
 
 // Run 实现Job接口的Run方法
-func (t Task) Run(request any) {
-	fmt.Println("This is task: ", t.Number)
+func (t Task) Run() {
+	fmt.Printf("This is task: %d, Data: %v\n", t.Number, t.Data)
 	time.Sleep(1 * time.Second) // 模拟任务执行时间
 }
 
@@ -30,7 +32,7 @@ func main() {
 
 	// 提交任务
 	for i := range taskNum {
-		task := Task{Number: i}
+		task := Task{Number: i, Data: fmt.Sprintf("Data from Task %d", i)}
 		workerPool.Submit(task)
 	}
 

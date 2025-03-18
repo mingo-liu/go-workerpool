@@ -21,7 +21,7 @@ func (w *Worker) Start(wp *WorkerPool) {
 			wp.workerQueue <- w // 将自己注册到Worker队列中
 			select {
 			case job := <-w.job: // 从任务队列中获取任务
-				job.Run(nil)
+				job.Run()
 				wp.wg.Done() // 任务完成后调用Done
 			case <-w.quit:
 				return

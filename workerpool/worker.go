@@ -9,7 +9,7 @@ type Worker struct {
 // NewWorker 创建一个Worker对象
 func NewWorker() *Worker {
 	return &Worker{
-		job:  make(chan Job),
+		job:  make(chan Job, 1),
 		quit: make(chan bool),
 	}
 }
